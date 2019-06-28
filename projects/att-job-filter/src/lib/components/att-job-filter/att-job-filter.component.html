@@ -1,0 +1,9 @@
+<att-job-filter-search-input *ngIf="!currentCriteria" (click)="searchBarHasFocus$.next(true)" [placeholder]="placeholder$ | async" [showDropdown]="showDropdown$ | async  ">
+    <att-job-filter-dropdown-container>
+        <att-job-filter-option-picker [options]="optionPickerValues$ | async" (optionClicked)="handleOptionsClicked($event)"></att-job-filter-option-picker>
+    </att-job-filter-dropdown-container>
+</att-job-filter-search-input>
+<div #criteriaComponentContainer>
+
+</div>
+{{appliedCriterias | json}}

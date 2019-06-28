@@ -1,0 +1,11 @@
+:host{
+    position: relative;
+    overflow: visible;
+
+    & .dropdown-container{
+        position: absolute;
+        border: 1px solid black;
+        white-space: nowrap;
+        padding: 5px;
+    }
+}

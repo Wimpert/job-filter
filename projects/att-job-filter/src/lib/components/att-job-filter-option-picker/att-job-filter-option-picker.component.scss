@@ -1,0 +1,14 @@
+:host{
+
+
+    & .option-container{
+        background: lightgray;
+        display: block;
+        width: 100%;
+
+        &:hover{
+            cursor: pointer;
+            background: darkgray;
+        }
+    }
+}

@@ -1,0 +1,3 @@
+<button *ngFor="let option of options" (click)="optionClicked.emit(option)" class="option-container">
+  {{option.displayValue}}
+</button>

@@ -1,0 +1,47 @@
+@startuml
+
+' ********* COMPONENTS ********* ' 
+
+class AttJobFilter<Component> {
+    .. @Input ..
+    functionality: string
+    .. @Output ..
+    criteriaChanged: EventEmitter<AttJobFilterCriteria>
+    foundAttJobsChanged: EventEmitter<Array<AttJob>>
+    selectedAttJob: EventEmitter<AttJob>
+    .. attributes ..
+    - selectedCriteria: AttJobFilterCriteria
+}
+
+class AttJobFilterDropdownContainter<Component>{
+
+}
+
+class AttJobFilterAppliedCriteriaContainer<Component> {
+      .. @Input ..
+      appliedCriteria: AttJobFilterCriteria
+}
+
+class AttJobFilterSearchInput<Component>{
+    .. @Input ..
+    placeholder : string;
+}
+
+
+
+
+' ********* CLASSES AND INTERFACES ********* ' 
+
+Interface AttJobFilterCriteria {
+    criteriaValues: any;
+    stringRepresentation: string;
+}
+
+
+' ********* RELATIONS ********* ' 
+
+AttJobFilter *-- AttJobFilterDropdownContainter
+AttJobFilter *-- AttJobFilterAppliedCriteriaContainer
+AttJobFilter *-- AttJobFilterSearchInput
+
+@enduml
