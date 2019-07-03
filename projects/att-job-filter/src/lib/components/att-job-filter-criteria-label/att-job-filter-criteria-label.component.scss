@@ -1,0 +1,10 @@
+:host{
+    background: lightgray;
+    border-radius: 5px;
+    padding : 2px;
+
+    & button {
+        background: transparent;
+        border:none;
+    }
+}

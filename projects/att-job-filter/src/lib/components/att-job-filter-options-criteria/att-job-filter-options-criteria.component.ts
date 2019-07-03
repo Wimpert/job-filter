@@ -26,7 +26,8 @@ export class AttJobFilterOptionsCriteriaComponent extends AbstactCriteriaCompone
   }
 
   handleOptionsClicked(option) {
-    this.criteriaUpdateFinished.emit({... this.criteria, value: option.data});
+    this.criteria.value = option.data;
+    this.criteriaUpdateFinished.emit(this.criteria);
   }
 
 

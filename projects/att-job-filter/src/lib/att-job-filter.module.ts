@@ -6,11 +6,13 @@ import { AttJobFilterOptionsCriteriaComponent } from './components/att-job-filte
 import { AttJobFilterPeriodCriteriaComponent } from './components/att-job-filter-period-criteria/att-job-filter-period-criteria.component';
 import { AttJobFilterSearchInputComponent } from './components/att-job-filter-search-input/att-job-filter-search-input.component';
 import { AttJobFilterComponent } from './components/att-job-filter/att-job-filter.component';
+import { AttJobFilterDatePickerComponent } from './components/att-job-filter-date-picker/att-job-filter-date-picker.component';
+import { AttJobFilterCriteriaLabelComponent } from './components/att-job-filter-criteria-label/att-job-filter-criteria-label.component';
 
 @NgModule({
   declarations: [AttJobFilterComponent, AttJobFilterSearchInputComponent,
                  AttJobFilterDropdownContainerComponent, AttJobFilterOptionPickerComponent,
-                 AttJobFilterOptionsCriteriaComponent, AttJobFilterPeriodCriteriaComponent],
+                 AttJobFilterOptionsCriteriaComponent, AttJobFilterPeriodCriteriaComponent, AttJobFilterDatePickerComponent, AttJobFilterCriteriaLabelComponent],
   imports: [
     CommonModule
   ],

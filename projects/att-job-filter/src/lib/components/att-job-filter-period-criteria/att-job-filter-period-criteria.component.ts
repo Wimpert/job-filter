@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { of } from 'rxjs';
 import { AbstactCriteriaComponent } from '../../shared/models/abstact.criteria.component';
 import { AbstractPeriodCriteria } from '../../shared/models/abstract.period.criteria.model';
 
@@ -19,7 +20,21 @@ export class AttJobFilterPeriodCriteriaComponent extends AbstactCriteriaComponen
   @Output()
   criteriaUpdateFinished: EventEmitter<AbstractPeriodCriteria> = new EventEmitter<AbstractPeriodCriteria>();
 
-  ngOnInit() {
+showDropdown$ = of(true);
+
+ngOnInit() {
+  }
+
+  handleDatePicked(date: Date) {
+    if (!this.criteria.value) {
+      this.criteria.value = {from: undefined, to: undefined};
+    }
+    if (!this.criteria.value.from) {
+      this.criteria.value.from =  date;
+    } else {
+      this.criteria.value.to = date;
+      this.criteriaUpdateFinished.emit(this.criteria);
+    }
   }
 
 }

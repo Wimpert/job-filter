@@ -6,10 +6,11 @@ export class InserviceCriteria extends AbstractPeriodCriteria {
     readonly emptyStringRepresentation = 'In service from - to ';
 
     get stringRepresentation(): string {
-        return `In service from ${this.value.from} to ${this.value.to}`;
+        return `In service from ${(this.value && this.value.from) ? this.value.from.toLocaleDateString() : ''}
+                to ${this.value && this.value.to ? this.value.to.toLocaleDateString() : '' }`;
     }
 
-    value: {from: undefined, to: undefined};
+    value: {from: Date, to: Date};
 
     type = CriteriaType.PERIOD;
 }

@@ -1,3 +1,5 @@
-<p>
-  att-job-filter-period-criteria works!
-</p>
+<att-job-filter-search-input [placeholder]="criteria.emptyStringRepresentation" [showDropdown]="showDropdown$ | async">
+    <att-job-filter-dropdown-container>
+        <att-job-filter-date-picker (datePicked)="handleDatePicked($event)"></att-job-filter-date-picker>
+    </att-job-filter-dropdown-container>
+</att-job-filter-search-input>

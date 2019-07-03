@@ -7,8 +7,8 @@ import { Criteria } from '../../shared/models/criteria.model';
 
 @Component({
   selector: 'att-job-filter',
-  templateUrl: `att-job-filter.component.html`,
-  styles: []
+  templateUrl: './att-job-filter.component.html',
+  styleUrls: ['./att-job-filter.component.scss']
 })
 export class AttJobFilterComponent implements OnInit, OnDestroy {
 
@@ -87,6 +87,11 @@ export class AttJobFilterComponent implements OnInit, OnDestroy {
 
     }
 
+  }
+
+
+  handleRemoveCriteria(criteria: Criteria) {
+    this.appliedCriterias.splice(this.appliedCriterias.indexOf(criteria), 1);
   }
 
   clearSubscriptions(): void {

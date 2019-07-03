@@ -4,7 +4,7 @@ import { CriteriaType } from './criteria.type.model';
 export class UnitCriteria extends AbstractHardListCriteria {
 
     get stringRepresentation(): string {
-        return this.value ? `is part of unit: ${this.value}` : '';
+        return this.value ? `Ìs part of unit: ${this.value}` : '';
     }
 
     readonly emptyStringRepresentation = 'Select a unit';
