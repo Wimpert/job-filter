@@ -5,6 +5,7 @@ export enum CriteriaType {
     HARD_LIST,
     STRING,
     DATE,
-    PERIOD
+    PERIOD,
+    JOB
 
 }

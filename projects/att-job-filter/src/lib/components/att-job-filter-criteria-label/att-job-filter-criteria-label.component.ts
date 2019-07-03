@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
 import { Criteria } from '../../shared/models/criteria.model';
 
 @Component({
@@ -13,5 +13,10 @@ export class AttJobFilterCriteriaLabelComponent  {
 
   @Output()
   closeCriteriaButtonClicked = new  EventEmitter<Criteria>();
+
+  @HostBinding('class.excluding')
+   get excluding() {
+     return !this.criteria.including;
+  }
 
 }

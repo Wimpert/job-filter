@@ -1,6 +1,6 @@
 <div>
   <div>
-   <att-job-filter-search-input *ngIf="!currentCriteria" (click)="searchBarHasFocus$.next(true)" [placeholder]="placeholder$ | async" [showDropdown]="showDropdown$ | async  ">
+   <att-job-filter-search-input *ngIf="!currentCriteria" (hasFocus)="searchBarHasFocus$.next($event)" (valueChanged)="handleSearchInputValueChanged($event)" [placeholder]="placeholder$ | async" [showDropdown]="showDropdown$ | async ">
         <att-job-filter-dropdown-container>
             <att-job-filter-option-picker [options]="optionPickerValues$ | async" (optionClicked)="handleOptionsClicked($event)"></att-job-filter-option-picker>
         </att-job-filter-dropdown-container>
@@ -8,7 +8,7 @@
     <div #criteriaComponentContainer></div>
   </div>
   <div>
-      <att-job-filter-criteria-label *ngFor="let appliedCriteria of appliedCriterias" [criteria]="appliedCriteria" (closeCriteriaButtonClicked)="handleRemoveCriteria($event)" ></att-job-filter-criteria-label>
+      <att-job-filter-criteria-label (click)='handleLabelClicked(appliedCriteria)' *ngFor="let appliedCriteria of appliedCriterias" [criteria]="appliedCriteria" (closeCriteriaButtonClicked)="handleRemoveCriteria($event)" ></att-job-filter-criteria-label>
   </div> 
 </div>
 <div id='saved-criteria-container'>

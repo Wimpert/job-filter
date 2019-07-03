@@ -1,25 +1,30 @@
 import { Component, ComponentFactoryResolver, HostListener, Input, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { Observable, of, Subject, Subscription } from 'rxjs';
-import { distinctUntilChanged, map, takeUntil, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, merge, Observable, of, Subject, Subscription } from 'rxjs';
+import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { POSSIBLE_CRITERIA } from '../../shared/constants/constants';
 import { AbstactCriteriaComponent } from '../../shared/models/abstact.criteria.component';
 import { Criteria } from '../../shared/models/criteria.model';
+import { JobCriteria } from '../../shared/models/job.criteria.model';
+import { JobService } from '../../shared/service/job.service';
 
 @Component({
   selector: 'att-job-filter',
   templateUrl: './att-job-filter.component.html',
   styleUrls: ['./att-job-filter.component.scss']
 })
-export class AttJobFilterComponent implements OnInit, OnDestroy {
+export class AttJobFilterComponent<T> implements OnInit, OnDestroy {
 
   @ViewChild('criteriaComponentContainer', { read: ViewContainerRef }) criteriaComponentContainer: ViewContainerRef;
 
   @Input() functionality: string;
 
-  criteria: Array<Criteria> = POSSIBLE_CRITERIA;
+  criteria: Array<typeof Criteria> = POSSIBLE_CRITERIA;
 
-  searchBarHasFocus$: Subject<boolean> = new Subject<boolean>();
+  searchBarHasFocus$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   destroy$: Subject<void> = new Subject<void>();
+  nameSearchValue$: BehaviorSubject<string> = new BehaviorSubject<string>(undefined);
+  isInNameSearchModus = false;
+  jobsFoundBasedOnName$: Observable<Array<string>>;
 
   currentCriteria$: Subject<Criteria> =  new Subject();
   private _currentCriteria: Criteria;
@@ -38,55 +43,77 @@ export class AttJobFilterComponent implements OnInit, OnDestroy {
   appliedCriterias: Array<Criteria> = new Array<Criteria>();
   criteriaComponentSubscriptions: Array<Subscription> = new Array<Subscription>();
 
-  showDropdown$: Observable<boolean> = this.searchBarHasFocus$.pipe(
-    distinctUntilChanged()
+
+  optionPickerValues$: Observable<Array<{displayValue: string, data: any}>> = combineLatest(this.searchBarHasFocus$, this.nameSearchValue$).pipe(
+    tap(_ => this.isInNameSearchModus = false),
+    switchMap(([hasFocus, nameSearchValue]: [boolean, string]) => {
+      if (!hasFocus) {
+        return of(undefined);
+      } else {
+        if (!nameSearchValue) {
+          return of(this.criteria.map(criteriumType => ({displayValue : criteriumType.emptyStringRepresentation , data: criteriumType})));
+        } else {
+          this.isInNameSearchModus = true;
+          return this.jobService.findBasedOnName(nameSearchValue).pipe(
+            map(names => names.map(name => ({displayValue: name, data: name}))));
+        }
+      }
+    }),
   );
 
-  optionPickerValues$: Observable<Array<{displayValue: string, data: any}>> = this.showDropdown$.pipe(
-    map(show => {
-      if (show) {
-        return this.criteria.map(criterium => ({displayValue : criterium.emptyStringRepresentation , data: criterium}));
-      }
-      return undefined;
-    })
-  );
+  showDropdown$: Observable<boolean> = merge(this.optionPickerValues$.pipe(
+    map(value => !!value)
+  ));
 
   @HostListener('document:keydown', ['$event'])
   keyDownHandler(keydownEvent) {
     if (keydownEvent.key === 'Escape') {
-      this.currentCriteria = undefined;
+      if (this.currentCriteria) {
+        this.currentCriteria = undefined;
+      }
     }
   }
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private readonly jobService: JobService) {}
 
   ngOnInit(): void {
     this.currentCriteria$.pipe(
       takeUntil(this.destroy$),
       tap( criteria => this.insertCriteriaComponent(criteria))
     ).subscribe();
+
+    this.jobsFoundBasedOnName$ = this.nameSearchValue$.pipe(
+      switchMap(name => this.jobService.findBasedOnName(name))
+    );
   }
 
   handleOptionsClicked(option) {
-    this.currentCriteria = option.data;
+    if (this.isInNameSearchModus) {
+     const jobCriteria = new JobCriteria();
+     jobCriteria.value = option.displayValue;
+     this.appliedCriterias.push(jobCriteria);
+     this.nameSearchValue$.next(undefined);
+     this.searchBarHasFocus$.next(false);
+    } else {
+      this.currentCriteria = option.data;
+    }
   }
 
-  insertCriteriaComponent(criteria: Criteria): void {
+  insertCriteriaComponent(criteriaType): void {
     this.criteriaComponentContainer.clear();
     this.clearSubscriptions();
-    if (criteria) {
-       const componentFactory  = this.componentFactoryResolver.resolveComponentFactory(criteria.componentClass);
-       const componentRef = this.criteriaComponentContainer.createComponent(componentFactory);
-       const criteriaComponent = componentRef.instance as AbstactCriteriaComponent<any>;
-       criteriaComponent.criteria = criteria;
-       this.criteriaComponentSubscriptions.push(criteriaComponent.criteriaUpdateFinished.subscribe( criteria => {
-         this.appliedCriterias.push(criteria);
+    if (criteriaType) {
+      const criteria = new criteriaType();
+      const componentFactory  = this.componentFactoryResolver.resolveComponentFactory(criteria.componentClass);
+      const componentRef = this.criteriaComponentContainer.createComponent(componentFactory);
+      const criteriaComponent = componentRef.instance as AbstactCriteriaComponent<any>;
+      criteriaComponent.criteria = criteria;
+      this.criteriaComponentSubscriptions.push(criteriaComponent.criteriaUpdateFinished.subscribe( criteriaFromComponent => {
+         this.appliedCriterias.push(criteriaFromComponent);
          this.currentCriteria = undefined;
         }
        ));
-
     }
-
   }
 
 
@@ -101,5 +128,13 @@ export class AttJobFilterComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.clearSubscriptions();
     this.destroy$.next();
+  }
+
+  handleSearchInputValueChanged(value: string) {
+    this.nameSearchValue$.next(value);
+  }
+
+  handleLabelClicked(criteria: Criteria) {
+    criteria.including = !criteria.including;
   }
 }

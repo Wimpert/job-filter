@@ -2,13 +2,13 @@ import { AttJobFilterPeriodCriteriaComponent } from '../../components/att-job-fi
 import { Criteria } from './criteria.model';
 import { CriteriaType } from './criteria.type.model';
 
-export abstract class AbstractPeriodCriteria implements Criteria {
+export abstract class AbstractPeriodCriteria extends Criteria {
 
     static type = CriteriaType.PERIOD;
+    static emptyStringRepresentation: string;
     componentClass = AttJobFilterPeriodCriteriaComponent;
     type: CriteriaType;
 
-    abstract emptyStringRepresentation;
     abstract stringRepresentation;
     abstract value: {from: Date, to: Date};
 

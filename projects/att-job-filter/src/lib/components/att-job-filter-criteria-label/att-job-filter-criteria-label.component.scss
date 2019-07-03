@@ -3,6 +3,10 @@
     border-radius: 5px;
     padding : 2px;
 
+    &.excluding{
+        background: rgba(250, 72, 72, 0.5);
+    }
+
     & button {
         background: transparent;
         border:none;

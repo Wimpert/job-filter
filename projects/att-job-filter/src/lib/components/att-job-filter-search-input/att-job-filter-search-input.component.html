@@ -1,4 +1,4 @@
-<input type="text" [placeholder]="placeholder">
+<input #searchInput type="text" (focus)="hasFocus.emit(true)" (blur)="handleInputBlur()" [placeholder]="placeholder" (keyup)="handleValueChanged($event)" >
 <div *ngIf="showDropdown" class="dropdown-container">
   <ng-content ></ng-content>
 </div>

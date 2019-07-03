@@ -11,8 +11,4 @@ export class AttJobFilterOptionPickerComponent {
 
   @Output() optionClicked = new EventEmitter<{displayValue: string, data: any}>();
 
-
-  test() {
-    console.log('dqmlfj');
-  }
 }

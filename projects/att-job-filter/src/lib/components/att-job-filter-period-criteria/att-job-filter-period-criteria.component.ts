@@ -29,6 +29,7 @@ ngOnInit() {
     if (!this.criteria.value) {
       this.criteria.value = {from: undefined, to: undefined};
     }
+    console.log(this.criteria);
     if (!this.criteria.value.from) {
       this.criteria.value.from =  date;
     } else {

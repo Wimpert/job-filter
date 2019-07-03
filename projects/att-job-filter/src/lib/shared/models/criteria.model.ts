@@ -1,9 +1,10 @@
 
 export abstract class Criteria {
+    static emptyStringRepresentation: string;
     componentClass;
-    emptyStringRepresentation: string;
     stringRepresentation: string;
     value: any;
+    including = true;
 }
 
 
