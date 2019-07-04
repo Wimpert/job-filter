@@ -1,5 +1,90 @@
 @startuml
 
+
+
+' ********* CLASSES AND INTERFACES ********* ' 
+
+abstract class Criteria {
+    static emptyStringRepresentation: string;
+    componentClass;
+    stringRepresentation: string;
+    value: any;
+    including = true;
+}
+
+abstract class AbstractApiListCriteria extends Criteria {
+
+    static type = CriteriaType.API_LIST;
+    static emptyStringRepresentation: string;
+    componentClass = AttJobFilterApiOptionsCriteriaComponent;
+    type: CriteriaType;
+
+
+    abstract url: string;
+    abstract stringRepresentation;
+    abstract value;
+
+
+}
+
+abstract class AbstractDateCriteria extends Criteria {
+
+    static type = CriteriaType.DATE;
+    static emptyStringRepresentation: string;
+    componentClass = AttJobFilterDateCriteriaComponent;
+    type: CriteriaType;
+
+    abstract stringRepresentation;
+    abstract value: Date;
+
+
+}
+
+abstract class AbstractHardListCriteria extends Criteria {
+
+    static type = CriteriaType.HARD_LIST;
+    static emptyStringRepresentation: string;
+
+    componentClass = AttJobFilterOptionsCriteriaComponent;
+    type: CriteriaType;
+
+    abstract options: Array<any>;
+    abstract stringRepresentation;
+    abstract value;
+
+
+
+}
+
+abstract class AbstractPeriodCriteria extends Criteria {
+
+    static type = CriteriaType.PERIOD;
+    static emptyStringRepresentation: string;
+    componentClass = AttJobFilterPeriodCriteriaComponent;
+    type: CriteriaType;
+
+    abstract stringRepresentation;
+    abstract value: {from: Date, to: Date};
+
+}
+
+class FunctionCriteria extends AbstractHardListCriteria {
+
+    get stringRepresentation(): string 
+
+    static readonly emptyStringRepresentation = 'Select a function:';
+
+    options = [
+        'Software Engineer', 'Test Engineer', 'Functional Analyst'
+    ];
+    value: string;
+}
+
+
+
+
+
+
 ' ********* COMPONENTS ********* ' 
 
 class AttJobFilter<Component> {
@@ -30,12 +115,6 @@ class AttJobFilterSearchInput<Component>{
 
 
 
-' ********* CLASSES AND INTERFACES ********* ' 
-
-Interface AttJobFilterCriteria {
-    criteriaValues: any;
-    stringRepresentation: string;
-}
 
 
 ' ********* RELATIONS ********* ' 

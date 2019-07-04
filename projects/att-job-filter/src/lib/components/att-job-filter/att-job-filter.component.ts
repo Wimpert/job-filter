@@ -5,7 +5,7 @@ import { POSSIBLE_CRITERIA } from '../../shared/constants/constants';
 import { AbstactCriteriaComponent } from '../../shared/models/abstact.criteria.component';
 import { Criteria } from '../../shared/models/criteria.model';
 import { JobCriteria } from '../../shared/models/job.criteria.model';
-import { JobService } from '../../shared/service/job.service';
+import { JobService } from '../../shared/services/job/job.service';
 
 @Component({
   selector: 'att-job-filter',

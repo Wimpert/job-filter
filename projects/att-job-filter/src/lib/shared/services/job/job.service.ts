@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { JOB_LIST } from '../constants/constants';
+import { JOB_LIST } from '../../constants/constants';
 
 @Injectable({
   providedIn: 'root'

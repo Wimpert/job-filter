@@ -6,6 +6,8 @@ export abstract class AbstractApiListCriteria extends Criteria {
 
     static type = CriteriaType.API_LIST;
     static emptyStringRepresentation: string;
+    static _mapFunction: (values: Array<any>) => (Array<{displayValue: string, data: any}>);
+
     componentClass = AttJobFilterApiOptionsCriteriaComponent;
     type: CriteriaType;
 
@@ -13,6 +15,8 @@ export abstract class AbstractApiListCriteria extends Criteria {
     abstract url: string;
     abstract stringRepresentation;
     abstract value;
+
+    abstract get mapFunction()
 
 
 }

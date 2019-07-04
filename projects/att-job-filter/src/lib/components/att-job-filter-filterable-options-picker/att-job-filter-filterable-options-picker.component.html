@@ -1,0 +1,5 @@
+<att-job-filter-search-input [placeholder]="'type to filter'" [showDropdown]="true"  (keyup)="filterValueChanged($event)">
+  <att-job-filter-dropdown-container>
+      <att-job-filter-option-picker [options]="options | filterOptions : filterValue" (optionClicked)="optionClicked.emit($event)"></att-job-filter-option-picker>
+  </att-job-filter-dropdown-container>
+</att-job-filter-search-input>
