@@ -1,15 +1,42 @@
 :host{
 
+    border: 1px solid lightgray;
+
+    & div{
+        padding :4px;
+    }
+
     display: flex;
 
     & > div:first-child{
         flex-grow: 1;
         display: flex;
-        flex-direction: column
+        flex-direction: column;
+
+        & > div:first-child{
+            display: flex;
+
+        }
     }
     
     #saved-criteria-container{
        flex-shrink: 1;
+       display: flex;
+       flex-direction: column;
+       justify-content: space-between;
     }
     
+    #dynamic-container{
+        width: 150px;
+    }
+
+    #job-selector-containter{
+        flex-basis: 100%;
+    }
+
+    #applied-criteria-container{
+        & > *{
+            margin: 3px;
+        }
+    }
 }

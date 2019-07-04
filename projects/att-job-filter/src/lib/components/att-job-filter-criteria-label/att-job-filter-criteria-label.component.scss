@@ -1,4 +1,9 @@
 :host{
+
+    &:hover{
+        cursor: pointer;
+    }
+    
     background: lightgray;
     border-radius: 5px;
     padding : 2px;
