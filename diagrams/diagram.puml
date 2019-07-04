@@ -1,7 +1,6 @@
 @startuml
 
 
-
 ' ********* CLASSES AND INTERFACES ********* ' 
 
 abstract class Criteria {
@@ -164,19 +163,54 @@ class InserviceCriteria extends AbstractPeriodCriteria {
 abstract class AbstactCriteriaComponent<T extends Criteria> {
 
 
-    @Input()
+    ..@Input..
     abstract criteria: T ;
 
-    @Output()
+    .. @Output ..
     abstract criteriaUpdated: EventEmitter<T>;
-
-    @Output()
+     .. @Output ..
     abstract criteriaUpdateFinished: EventEmitter<T>;
 
 
 }
 
 
+class AttJobFilterPeriodCriteriaComponent  implements AbstactCriteriaComponent {
+
+
+   .. @Input ..
+  criteria: AbstractPeriodCriteria;
+
+   .. @Output ..
+  criteriaUpdated: EventEmitter<AbstractPeriodCriteria> = new EventEmitter<AbstractPeriodCriteria>();
+   .. @Output ..
+  criteriaUpdateFinished: EventEmitter<AbstractPeriodCriteria> = new EventEmitter<AbstractPeriodCriteria>();
+
+
+  .. Methods ..
+  handleDatePicked(date: Date) 
+  
+
+}
+
+ class AttJobFilterOptionsCriteriaComponent implements  AbstactCriteriaComponent  {
+
+
+   .. @Input ..
+  criteria: AbstractHardListCriteria;
+
+.. @Output ..
+  criteriaUpdated: EventEmitter<AbstractHardListCriteria> = new EventEmitter<AbstractHardListCriteria>();
+   .. @Output ..
+  criteriaUpdateFinished: EventEmitter<AbstractHardListCriteria> = new EventEmitter<AbstractHardListCriteria>();
+
+  mappedOptions: Array<{displayValue: string, data: any}>;
+
+  ngOnInit()
+
+  handleOptionsClicked(option) 
+
+ }
 
 
 
