@@ -12,20 +12,6 @@ abstract class Criteria {
     including = true;
 }
 
-abstract class AbstractApiListCriteria extends Criteria {
-
-    static type = CriteriaType.API_LIST;
-    static emptyStringRepresentation: string;
-    componentClass = AttJobFilterApiOptionsCriteriaComponent;
-    type: CriteriaType;
-
-
-    abstract url: string;
-    abstract stringRepresentation;
-    abstract value;
-
-
-}
 
 abstract class AbstractDateCriteria extends Criteria {
 
@@ -56,6 +42,25 @@ abstract class AbstractHardListCriteria extends Criteria {
 
 }
 
+abstract class AbstractApiListCriteria extends Criteria {
+
+    static type = CriteriaType.API_LIST;
+    static emptyStringRepresentation: string;
+    static _mapFunction: (values: Array<any>) => (Array<{displayValue: string, data: any}>);
+
+    componentClass = AttJobFilterApiOptionsCriteriaComponent;
+    type: CriteriaType;
+
+
+    abstract url: string;
+    abstract stringRepresentation;
+    abstract value;
+
+    abstract get mapFunction()
+
+
+}
+
 abstract class AbstractPeriodCriteria extends Criteria {
 
     static type = CriteriaType.PERIOD;
@@ -80,6 +85,75 @@ class FunctionCriteria extends AbstractHardListCriteria {
     value: string;
 }
 
+class ValidOnCriteria extends AbstractDateCriteria {
+
+    static readonly emptyStringRepresentation = 'Valid on';
+
+    get stringRepresentation(): string 
+
+    value: Date;
+
+    type = CriteriaType.DATE;
+}
+
+class UnitCriteria extends AbstractHardListCriteria {
+
+
+    static readonly emptyStringRepresentation = 'Select a unit';
+
+    get stringRepresentation(): string 
+
+
+    options = [
+        'UNIT 1',
+        'An other unit ',
+        'the best unit ',
+        'no body want to be in this unit ',
+    ];
+
+    value: string;
+
+}
+
+class StatusCriteria extends AbstractHardListCriteria {
+
+    static readonly emptyStringRepresentation = 'Select a status';
+
+    get stringRepresentation(): string
+
+
+    options = [
+        'In Service', 'Out of service'
+    ];
+
+    value: string;
+}
+
+class DepartmentCriteria extends AbstractApiListCriteria {
+
+    get stringRepresentation(): string 
+
+    static readonly emptyStringRepresentation = 'Select a department';
+
+    value: string;
+    url: string;
+
+    static _mapFunction = (values: Array<string>) => (values.map(value => ({displayValue: value, data: value})));
+
+    get mapFunction() 
+
+}
+
+
+class InserviceCriteria extends AbstractPeriodCriteria {
+
+    static readonly emptyStringRepresentation  = 'In service from - to ';
+
+    get stringRepresentation(): string 
+
+    value: {from: Date, to: Date};
+}
+
 
 
 
@@ -87,29 +161,19 @@ class FunctionCriteria extends AbstractHardListCriteria {
 
 ' ********* COMPONENTS ********* ' 
 
-class AttJobFilter<Component> {
-    .. @Input ..
-    functionality: string
-    .. @Output ..
-    criteriaChanged: EventEmitter<AttJobFilterCriteria>
-    foundAttJobsChanged: EventEmitter<Array<AttJob>>
-    selectedAttJob: EventEmitter<AttJob>
-    .. attributes ..
-    - selectedCriteria: AttJobFilterCriteria
-}
+abstract class AbstactCriteriaComponent<T extends Criteria> {
 
-class AttJobFilterDropdownContainter<Component>{
 
-}
+    @Input()
+    abstract criteria: T ;
 
-class AttJobFilterAppliedCriteriaContainer<Component> {
-      .. @Input ..
-      appliedCriteria: AttJobFilterCriteria
-}
+    @Output()
+    abstract criteriaUpdated: EventEmitter<T>;
 
-class AttJobFilterSearchInput<Component>{
-    .. @Input ..
-    placeholder : string;
+    @Output()
+    abstract criteriaUpdateFinished: EventEmitter<T>;
+
+
 }
 
 
@@ -118,9 +182,5 @@ class AttJobFilterSearchInput<Component>{
 
 
 ' ********* RELATIONS ********* ' 
-
-AttJobFilter *-- AttJobFilterDropdownContainter
-AttJobFilter *-- AttJobFilterAppliedCriteriaContainer
-AttJobFilter *-- AttJobFilterSearchInput
 
 @enduml

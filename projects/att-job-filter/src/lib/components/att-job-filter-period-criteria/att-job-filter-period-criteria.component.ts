@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { of } from 'rxjs';
 import { AbstactCriteriaComponent } from '../../shared/models/abstact.criteria.component';
 import { AbstractPeriodCriteria } from '../../shared/models/abstract.period.criteria.model';
@@ -8,7 +8,7 @@ import { AbstractPeriodCriteria } from '../../shared/models/abstract.period.crit
   templateUrl: './att-job-filter-period-criteria.component.html',
   styleUrls: ['./att-job-filter-period-criteria.component.scss']
 })
-export class AttJobFilterPeriodCriteriaComponent extends AbstactCriteriaComponent<AbstractPeriodCriteria> implements OnInit {
+export class AttJobFilterPeriodCriteriaComponent  implements AbstactCriteriaComponent<AbstractPeriodCriteria> {
 
 
   @Input()
@@ -22,14 +22,10 @@ export class AttJobFilterPeriodCriteriaComponent extends AbstactCriteriaComponen
 
 showDropdown$ = of(true);
 
-ngOnInit() {
-  }
-
   handleDatePicked(date: Date) {
     if (!this.criteria.value) {
       this.criteria.value = {from: undefined, to: undefined};
     }
-    console.log(this.criteria);
     if (!this.criteria.value.from) {
       this.criteria.value.from =  date;
     } else {

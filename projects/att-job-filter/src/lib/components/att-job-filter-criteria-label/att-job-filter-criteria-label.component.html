@@ -1,1 +1,1 @@
-{{criteria.stringRepresentation}} <button (click)='closeCriteriaButtonClicked.emit(criteria)'>x</button>
+{{criteria.including ? '' : 'NOT '}}{{criteria.stringRepresentation}} <button (click)='closeCriteriaButtonClicked.emit(criteria)'>x</button>

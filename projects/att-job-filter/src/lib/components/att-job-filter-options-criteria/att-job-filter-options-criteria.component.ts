@@ -7,7 +7,7 @@ import { AbstractHardListCriteria } from '../../shared/models/abstract.hardlist.
   templateUrl: './att-job-filter-options-criteria.component.html',
   styleUrls: ['./att-job-filter-options-criteria.component.scss']
 })
-export class AttJobFilterOptionsCriteriaComponent extends AbstactCriteriaComponent<AbstractHardListCriteria> implements OnInit {
+export class AttJobFilterOptionsCriteriaComponent implements OnInit, AbstactCriteriaComponent<AbstractHardListCriteria>  {
 
 
   @Input()

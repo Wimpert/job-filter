@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { of } from 'rxjs';
+import { AbstactCriteriaComponent } from '../../shared/models/abstact.criteria.component';
 import { AbstractDateCriteria } from '../../shared/models/abstract.date.criteria.model';
 
 
@@ -8,7 +9,7 @@ import { AbstractDateCriteria } from '../../shared/models/abstract.date.criteria
   templateUrl: './att-job-filter-date-criteria.component.html',
   styleUrls: ['./att-job-filter-date-criteria.component.scss']
 })
-export class AttJobFilterDateCriteriaComponent {
+export class AttJobFilterDateCriteriaComponent implements AbstactCriteriaComponent<AbstractDateCriteria> {
 
   @Input()
   criteria: AbstractDateCriteria;
