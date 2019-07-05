@@ -160,59 +160,32 @@ class InserviceCriteria extends AbstractPeriodCriteria {
 
 ' ********* COMPONENTS ********* ' 
 
-abstract class AbstactCriteriaComponent<T extends Criteria> {
 
-
-    ..@Input..
-    abstract criteria: T ;
-
-    .. @Output ..
-    abstract criteriaUpdated: EventEmitter<T>;
-     .. @Output ..
-    abstract criteriaUpdateFinished: EventEmitter<T>;
-
+ abstract class AbstactCriteriaComponent<T extends Criteria> {
+  .. @Input ..
+  abstract criteria: T 
+  .. @Output ..
+  abstract criteriaUpdated: EventEmitter<T>
+  abstract criteriaUpdateFinished: EventEmitter<T>
 
 }
 
-
-class AttJobFilterPeriodCriteriaComponent  implements AbstactCriteriaComponent {
-
-
-   .. @Input ..
-  criteria: AbstractPeriodCriteria;
-
-   .. @Output ..
-  criteriaUpdated: EventEmitter<AbstractPeriodCriteria> = new EventEmitter<AbstractPeriodCriteria>();
-   .. @Output ..
-  criteriaUpdateFinished: EventEmitter<AbstractPeriodCriteria> = new EventEmitter<AbstractPeriodCriteria>();
-
-
-  .. Methods ..
-  handleDatePicked(date: Date) 
-  
-
+class AttJobFilterPeriodCriteriaComponent implements AbstactCriteriaComponent {
+    
 }
 
- class AttJobFilterOptionsCriteriaComponent implements  AbstactCriteriaComponent  {
+class AttJobFilterOptionsCriteriaComponent implements AbstactCriteriaComponent {
+    
+}
 
 
-   .. @Input ..
-  criteria: AbstractHardListCriteria;
+class AttJobFilterDateCriteriaComponent implements AbstactCriteriaComponent {
+    
+}
 
-.. @Output ..
-  criteriaUpdated: EventEmitter<AbstractHardListCriteria> = new EventEmitter<AbstractHardListCriteria>();
-   .. @Output ..
-  criteriaUpdateFinished: EventEmitter<AbstractHardListCriteria> = new EventEmitter<AbstractHardListCriteria>();
-
-  mappedOptions: Array<{displayValue: string, data: any}>;
-
-  ngOnInit()
-
-  handleOptionsClicked(option) 
-
- }
-
-
+class AttJobFilterApiOptionsCriteriaComponent implements AbstactCriteriaComponent {
+    
+}
 
 
 ' ********* RELATIONS ********* ' 

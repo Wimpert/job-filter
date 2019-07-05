@@ -31,7 +31,7 @@ constructor(private readonly generalOptionsService: GeneralOptionsService) {
 ngOnInit() {
 
   this.mappedOptions$ =  this.generalOptionsService.getOptions(this.criteria.url).pipe(
-    map(input => this.criteria.mapFunction.apply(this, [input]))
+    map(input => this.criteria.mapFunction(input))
   );
 
 }

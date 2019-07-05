@@ -32,6 +32,10 @@
 
     #job-selector-containter{
         flex-basis: 100%;
+
+        & > * {
+            margin: 0px 5px
+        }
     }
 
     #applied-criteria-container{
